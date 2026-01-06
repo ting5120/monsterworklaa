@@ -25,8 +25,7 @@ MonoBehaviour:
   unlockedImage: {fileID: 21300000, guid: a9a2d5baa634c954ea06d85be736fc51, type: 3}
   frameImage: {fileID: 21300000, guid: dafb9c827e05cb4419b3bdaf70229754, type: 3}
   monsterPrefab: {fileID: 3572749968243660099, guid: 82186f2e189eb8c4bb468496ef62182c, type: 3}
-  spawnScale: 0.5
-  spawnOffset: {x: 0, y: 1, z: 0}
+  spawnOffset: {x: 0, y: -3, z: 0}
   costumePrefabs:
   - costumeID: 0
     costumePrefab: {fileID: 3572749968243660099, guid: 82186f2e189eb8c4bb468496ef62182c, type: 3}

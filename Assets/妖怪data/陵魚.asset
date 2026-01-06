@@ -16,7 +16,7 @@ MonoBehaviour:
   ID: 14
   description: "\u5F62\u5982\u9B5A\u4F46\u80FD\u5728\u9678\u5730\u884C\u8D70\uFF0C\u6D3B\u52D5\u5982\u7378\u985E\u3002\n\u898B\u4E4B\u5F80\u5F80\u4EE3\u8868\u6C34\u60A3\u8B8A\u52D5\uFF0C\u56E0\u5176\u80FD\u300C\u51FA\u6C34\u767B\u9675\u300D\u3002\n\u51FA\u81EA\u300A\u6771\u6D77\u4E4B\u5916\u7D93\u300B"
   level: 0
-  alignment: 0
+  alignment: 1
   workEfficiency: 1.15
   costumeEfficiency: 1.1
   monsterImage: {fileID: 21300000, guid: c0c4bfee27cadff498529d98f11e8d81, type: 3}
@@ -25,8 +25,7 @@ MonoBehaviour:
   unlockedImage: {fileID: 21300000, guid: 19b164cc004e67f468edee4bf2da1f20, type: 3}
   frameImage: {fileID: 21300000, guid: 30e092298a23c8843abd1c819c12a93f, type: 3}
   monsterPrefab: {fileID: 70316125499223030, guid: b2b96ce9e17e77d458e30b8676ef986b, type: 3}
-  spawnScale: 0.5
-  spawnOffset: {x: 0, y: 1, z: 0}
+  spawnOffset: {x: 0, y: -2, z: 0}
   costumePrefabs:
   - costumeID: 0
     costumePrefab: {fileID: 70316125499223030, guid: b2b96ce9e17e77d458e30b8676ef986b, type: 3}

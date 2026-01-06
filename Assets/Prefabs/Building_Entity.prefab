@@ -211,7 +211,10 @@ MonoBehaviour:
   panelType: 0
   recruitedMonster: {fileID: 0}
   monsterSpawnPoint: {fileID: 8480524074786846529}
+  monsterYOffset: -2
   badMonsterSmokePrefab: {fileID: 1693595251257287166, guid: 70ad4fcb238fb0644b7906fee70d0091, type: 3}
+  badMonsterSmokeInstance: {fileID: 0}
+  badMonsterSmokeDelay: 10
   currentLevel: 1
   equippedCostume: {fileID: 0}
   currentMonsterGO: {fileID: 0}

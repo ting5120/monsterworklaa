@@ -1439,7 +1439,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4501.491, y: -1437.7346}
+  m_AnchoredPosition: {x: 4501.491, y: -1060}
   m_SizeDelta: {x: 11185.72, y: 4400.943}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &79003955
@@ -2908,7 +2908,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coinTextMoneyUI: {fileID: 805909866}
-  coinsPerSecond: 5
+  coinsPerSecond: 100
 --- !u!4 &209641428
 Transform:
   m_ObjectHideFlags: 0

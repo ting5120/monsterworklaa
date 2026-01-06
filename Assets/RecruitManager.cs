@@ -446,7 +446,7 @@ public class RecruitManager : MonoBehaviour
         nextMonsterButton.colors = cb;
 
         // 顯示當前招募費（可選）
-        Debug.Log($"[RecruitManager] 當前跳過費用：{currentRecruitCost}，玩家金錢：{coinManager.TotalCoins}");
+        //Debug.Log($"[RecruitManager] 當前跳過費用：{currentRecruitCost}，玩家金錢：{coinManager.TotalCoins}");
     }
 }
 

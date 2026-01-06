@@ -49,9 +49,9 @@ public class MonsterData : ScriptableObject
     public GameObject monsterPrefab; // 預設圖片 prefab，後續換動畫
 
     [Header("生成設定")]
-    public float spawnScale = 1f;       // 生成大小倍率，1 = 原始大小
-    public Vector3 spawnOffset = new Vector3(0, 1f, 0); // 生成偏移量，相對於建築物
-    
+    //public float spawnScale = 1f;       // 生成大小倍率，1 = 原始大小
+    //public Vector3 spawnOffset = new Vector3(0, 1f, 0); // 生成偏移量，相對於建築物
+    public Vector3 spawnOffset;
 
     [Header("服飾 Prefab 對照表")]
     public List<MonsterCostumePrefab> costumePrefabs;

@@ -28,6 +28,9 @@ public class BuildingData : ScriptableObject
 
     // 每一級的數值
     public LevelData[] levels;
+
+    //[HideInInspector]
+    //public bool hasBeenPlaced;
 }
 // 每級建築的資料
 [System.Serializable]
