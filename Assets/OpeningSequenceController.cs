@@ -144,13 +144,6 @@ public class OpeningSequenceController : MonoBehaviour
 
     IEnumerator TenguWalkIn()
     {
-        // 先刪掉場景裡舊的靜態天狗（避免重複生成）
-        GameObject[] oldTengus = GameObject.FindGameObjectsWithTag("StaticTengu");
-        foreach (GameObject t in oldTengus)
-        {
-            Destroy(t);
-        }
-
         Vector3 startPos = tengu.transform.position;
         Vector3 endPos = tenguTargetPos.position;
 
@@ -170,21 +163,23 @@ public class OpeningSequenceController : MonoBehaviour
         // 關掉走路天狗
         tengu.SetActive(false);
 
-        // 生成靜態天狗，綁 parent，Tag 已在 prefab 裡設
+        // ⭐ 在這裡生成靜態天狗（正確位置）
+        Vector3 spawnPos = tenguStaticSpawnPos.position;
+        spawnPos.z = 0f; // 防止被鏡頭吃掉
+
         staticTenguInstance = Instantiate(
-            tenguStaticPrefab,
-            tenguStaticSpawnPos.position,
-            Quaternion.identity,
-            this.transform
+        tenguStaticPrefab,
+        spawnPos,
+        Quaternion.identity
         );
+
 
         Debug.Log("靜態天狗生成成功：" + staticTenguInstance.name);
 
         yield return new WaitForSeconds(0.2f);
 
-        NextStep();
+        NextStep(); // 進對話
     }
-
 
 
     #endregion
@@ -274,38 +269,25 @@ public class OpeningSequenceController : MonoBehaviour
 
     void FinishOpening()
     {
-        // 妖怪回來
+        // 1️⃣ 妖怪回來
         ShowBackgroundMonsters();
 
-        // 解鎖系統
+        // 2️⃣ 解鎖系統
         canvas2.SetActive(true);
         inputManager.enabled = true;
         cameraManager.enabled = true;
 
-        // 刪掉場景裡所有靜態天狗（保險）
-        GameObject[] allTengus = GameObject.FindGameObjectsWithTag("StaticTengu");
-        foreach (GameObject t in allTengus)
-        {
-            Destroy(t);
-        }
-
-        // 關掉走路天狗（保險）
-        tengu.SetActive(false);
-
-        // 關掉 Opening
-        Destroy(gameObject);
-    }
-
-
-    IEnumerator DestroyStaticTenguNextFrame()
-    {
-        // 等一幀，確保生成完成
-        yield return null;
+        // 3️⃣ 移除靜態天狗（⭐關鍵）
         if (staticTenguInstance != null)
         {
             Destroy(staticTenguInstance);
-            Debug.Log("靜態天狗已刪除");
         }
+
+        // 4️⃣ 關掉走路天狗（保險）
+        tengu.SetActive(false);
+
+        // 5️⃣ 關掉 Opening
+        Destroy(gameObject);
     }
 
 
