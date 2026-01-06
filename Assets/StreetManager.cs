@@ -31,9 +31,27 @@ public class StreetManager : MonoBehaviour
 
     void OnDisable()
     {
-        // 街道被關閉（切走）
-        DeactivateStreet();
+        // 這裡只做「保險停 Coroutine」
+        if (spawnRoutine != null)
+            StopCoroutine(spawnRoutine);
     }
+
+    public void FadeOutAndDeactivateStreet()
+    {
+        if (!isActive) return;
+
+        isActive = false;
+
+        if (spawnRoutine != null)
+            StopCoroutine(spawnRoutine);
+
+        foreach (var g in ghosts)
+        {
+            if (g != null && g.gameObject.activeSelf)
+                g.FadeOutAndPause();
+        }
+    }
+
 
     // =========================
     // 街道狀態控制

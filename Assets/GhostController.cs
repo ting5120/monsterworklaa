@@ -92,7 +92,7 @@ public class GhostController : MonoBehaviour
 
     public void FadeOutAndPause()
     {
-        if (!gameObject.activeSelf) return;
+        if (!isActiveAndEnabled) return;
 
         isPaused = true;
         StartCoroutine(Fade(1, 0, 0.4f));
