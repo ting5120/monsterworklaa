@@ -18,6 +18,9 @@ public class CameraManager : MonoBehaviour
     public Camera overviewCamera;       // 全螢幕攝影機
     public bool isOverviewMode = false; // 是否處於全螢幕模式
 
+    [Header("全螢幕背景")]
+    public GameObject overviewBackgroundImageGO;
+
     [Header("Movement Settings")]
     public float snapSpeed = 10f; // 鏡頭對齊速度
 
@@ -25,16 +28,6 @@ public class CameraManager : MonoBehaviour
     private int currentBuildingIndex = 0; // 0 到 9
     private int currentRowIndex = 0;      // 0, 1, 2 (中間列為預設)
 
-    /*void Start()
-    {
-        // 確保 GridManager 被連結
-        if (gridManager == null)
-            gridManager = FindObjectOfType<GridManager>();
-
-        // 初始位置：中央列 (0)，第一棟建築物 (0)
-        targetPosition = GetNewTargetPosition(0, 0);
-        transform.position = targetPosition;
-    }*/
     void Start()
     {
         if (gridManager == null)
@@ -127,6 +120,10 @@ public class CameraManager : MonoBehaviour
 
         if (mainCamera != null) mainCamera.gameObject.SetActive(!isOverviewMode);
         if (overviewCamera != null) overviewCamera.gameObject.SetActive(isOverviewMode);
+
+        // 控制全螢幕背景 Image
+        if (overviewBackgroundImageGO != null)
+            overviewBackgroundImageGO.SetActive(isOverviewMode);
 
         // ====== 找 Canvas 並切換 worldCamera ======
         Canvas canvas = FindObjectOfType<Canvas>(); // 自動抓主 UI Canvas

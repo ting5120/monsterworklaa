@@ -17,8 +17,8 @@ MonoBehaviour:
   description: "\u5C71\u6D77\u7D93\u591A\u6709\u591C\u9593\u767C\u5149\u4E4B\u7378\uFF0C\u5176\u5F62\u5982\u72AC\u6216\u72D0\u3002\u591C\u88E1\u5728\u6797\u9593\u9583\u720D\uFF0C\u5982\u6709\u5FAE\u706B\u3002\u65C5\u4EBA\u5C07\u5176\u7A31\u70BA\u300C\u706B\u5149\u7378\u300D\uFF0C\u898B\u4E4B\u591A\u80FD\u627E\u5230\u6C34\u6E90\u6216\u51FA\u53E3\uFF0C\u88AB\u8996\u4F5C\u4E0D\u5BB3\u4EBA\u7684\u591C\u884C\u7378\u3002\n\u8F09\u65BC\u300A\u5357\u8352\u7D93\u300B\uFF0C\u70BA\u90E8\u5206\u7570\u7378\u5408\u7A31"
   level: 0
   alignment: 0
-  workEfficiency: 0
-  costumeEfficiency: 0
+  workEfficiency: 1.15
+  costumeEfficiency: 1.1
   monsterImage: {fileID: 21300000, guid: 76ed175634352a244b06239ddd3f00d9, type: 3}
   borderImage: {fileID: 21300000, guid: 977bc5c8f11e67845bbba1c9800c3205, type: 3}
   lockedImage: {fileID: 21300000, guid: 850348e62e7484349b91f6563a4282bf, type: 3}

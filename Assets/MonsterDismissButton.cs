@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
+
 public class MonsterDismissButton : MonoBehaviour
 {
     [Header("資遣按鈕")]
@@ -12,8 +13,12 @@ public class MonsterDismissButton : MonoBehaviour
     // 當前普通面板所對應的建築
     [HideInInspector] public Building ownerBuilding;
 
+    private CoinManager coinManager;
+
     private void Awake()
     {
+        coinManager = FindObjectOfType<CoinManager>();
+
         if (dismissButton != null)
         {
             dismissButton.onClick.AddListener(OnDismissButtonClicked);
@@ -24,20 +29,63 @@ public class MonsterDismissButton : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        CoinManager.OnCoinChanged += RefreshDismissButtonState;
+        RefreshDismissButtonState(); // 保險，第一次也算
+    }
+
+    private void OnDisable()
+    {
+        CoinManager.OnCoinChanged -= RefreshDismissButtonState;
+    }
+
+    /// <summary>
+    /// 刷新資遣按鈕狀態（是否可點）
+    /// </summary>
+    public void RefreshDismissButtonState()
+    {
+        if (dismissButton == null || coinManager == null)
+            return;
+        if (ownerBuilding == null || ownerBuilding.monsterInstance == null || coinManager == null)
+            return;
+
+        int dismissCost = CalculateDismissCost(ownerBuilding.monsterInstance);
+
+        bool canAfford = coinManager.HasEnough(dismissCost);
+        dismissButton.interactable = canAfford;
+    }
+
     /// <summary>
     /// 點擊資遣按鈕
     /// </summary>
     private void OnDismissButtonClicked()
     {
-        if (ownerBuilding == null)
+        if (ownerBuilding == null || ownerBuilding.monsterInstance == null)
+            return;
+
+        int dismissCost = CalculateDismissCost(ownerBuilding.monsterInstance);
+
+        // 保底檢查（理論上不會發生，因為按鈕已被鎖）
+        if (!coinManager.HasEnough(dismissCost))
         {
-            Debug.LogWarning("[MonsterDismissButton] ownerBuilding 尚未指定");
+            Debug.Log("[MonsterDismissButton] 金錢不足，無法資遣");
             return;
         }
 
-        Debug.Log($"[MonsterDismissButton] 資遣建築 {ownerBuilding.data.buildingName} 的妖怪");
+        // 扣錢
+        coinManager.DeductCoins(dismissCost);
 
-        // 刪除目前的怪物 prefab
+        Debug.Log($"[MonsterDismissButton] 資遣建築 {ownerBuilding.data.buildingName}，花費 {dismissCost} 寶錢");
+
+        // 刪除壞妖怪煙霧
+        if (ownerBuilding.badMonsterSmokeInstance != null)
+        {
+            Destroy(ownerBuilding.badMonsterSmokeInstance);
+            ownerBuilding.badMonsterSmokeInstance = null;
+        }
+
+        // 刪除怪物
         if (ownerBuilding.currentMonsterGO != null)
         {
             Destroy(ownerBuilding.currentMonsterGO);
@@ -45,25 +93,41 @@ public class MonsterDismissButton : MonoBehaviour
             ownerBuilding.monsterInstance = null;
         }
 
-        // 將 recruitedMonster 設為 null，等待重新招募
         ownerBuilding.recruitedMonster = null;
 
-        // 暫時關閉普通面板，但不重置 UI 或其他進度
+        // 關閉普通面板
         var panel = BuildingPanelManager.Instance?.GetNormalPanel(ownerBuilding);
         if (panel != null)
         {
             panel.SetActive(false);
         }
 
-        // 呼叫 RecruitManager 顯示招募流程
-        if (RecruitManager.Instance != null)
+        // 進入招募流程
+        RecruitManager.Instance?.ShowRecruitStartPanel(ownerBuilding);
+    }
+
+    /// <summary>
+    /// 計算資遣費
+    /// </summary>
+    private int CalculateDismissCost(MonsterInstance monster)
+    {
+        float a = 1f;
+
+        switch (monster.monsterData.level)
         {
-            RecruitManager.Instance.ShowRecruitStartPanel(ownerBuilding.data);
-        }
-        else
-        {
-            Debug.LogError("[MonsterDismissButton] RecruitManager.Instance 尚未生成");
+            case MonsterLevel.Normal:
+                a = 1.15f;
+                break;
+            case MonsterLevel.Rare:
+                a = 1.35f;
+                break;
+            case MonsterLevel.Legendary:
+                a = 1.65f;
+                break;
         }
 
+        float cost = 100f * a * 0.8f;
+        return Mathf.CeilToInt(cost);
     }
 }
+

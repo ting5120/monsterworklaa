@@ -17,8 +17,8 @@ MonoBehaviour:
   description: "\u5F62\u4F3C\u9E7F\uFF0C\u5168\u8EAB\u9EC3\u8272\uFF0C\u80FD\u9A0E\u4E4B\u8005\u53EF\u9577\u751F\u4E0D\u6B7B\u3002\n\u300A\u5C71\u6D77\u7D93\u300B\u660E\u8A00\u7260\u80FD\u65E5\u884C\u5343\u91CC\uFF0C\u70BA\u4ED9\u5BB6\u4E58\u9A0E\u3002\n\u51FA\u81EA\u300A\u6D77\u5916\u897F\u7D93\u300B\u3002"
   level: 1
   alignment: 0
-  workEfficiency: 0
-  costumeEfficiency: 0
+  workEfficiency: 1.4
+  costumeEfficiency: 1.2
   monsterImage: {fileID: 21300000, guid: 6a4cbf19b446f5c4caa2626a7df899b1, type: 3}
   borderImage: {fileID: 21300000, guid: 6fed4fe6c42d86b4eb67db66f1bfb6d3, type: 3}
   lockedImage: {fileID: 21300000, guid: f273c4934aa6e2c47be5cf475b453ae2, type: 3}

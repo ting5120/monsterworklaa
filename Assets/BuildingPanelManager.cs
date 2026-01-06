@@ -828,7 +828,7 @@ public class BuildingPanelManager : MonoBehaviour
                (detailPanelRoot != null && detailPanelRoot.activeInHierarchy) ||
                (missionPanel != null && missionPanel.activeInHierarchy) ||
                (monsterBookPanel != null && monsterBookPanel.activeInHierarchy) ||
-               (recruitMainPanel != null && monsterBookPanel.activeInHierarchy) ||
+               (recruitMainPanel != null && recruitMainPanel.activeInHierarchy) ||
                (recruitStartPanel != null && recruitStartPanel.activeInHierarchy) ||
                (backPackPanel != null && backPackPanel.activeInHierarchy) ||
 

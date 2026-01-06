@@ -24,6 +24,7 @@ public class RecruitManager : MonoBehaviour
     [Header("妖怪資料")]
     public List<MonsterData> allMonsters;  // 所有可招募妖怪
     private MonsterData currentMonster;    // 當前顯示妖怪
+    private MonsterInstance currentMonsterInstance; // 實際招募存給建築物
 
     [Header("UI 元件")]
     public Image monsterImageUI;
@@ -60,9 +61,14 @@ public class RecruitManager : MonoBehaviour
 
     // 當前正在招募的建築物
     private BuildingData currentBuildingData;
+    // 新增：當前正在招募的建築實體
+    private Building currentTargetBuilding;
+
+    // 在 Awake() 裡初始化 coinManager
+    private CoinManager coinManager;
 
     // 新增：是否已進入「手動建造流程」
-   private bool hasEnteredManualBuildFlow = false;
+    private bool hasEnteredManualBuildFlow = false;
 
 
     private void Awake()
@@ -76,6 +82,12 @@ public class RecruitManager : MonoBehaviour
 
         recruitStartPanel.SetActive(false);
         recruitMainPanel.SetActive(false);
+
+        coinManager = FindObjectOfType<CoinManager>();
+        if (coinManager != null)
+        {
+            CoinManager.OnCoinChanged += UpdateNextButtonState;
+        }
     }
 
   
@@ -156,127 +168,102 @@ public class RecruitManager : MonoBehaviour
 
 
     // 確認招募
+
     public void OnConfirmRecruitButton()
     {
         Debug.Log("[RecruitManager] 確認招募按鈕被點擊");
 
-        if (currentBuildingData != null && currentBuildingData.placedInstance != null)
+        Building building = currentTargetBuilding;
+
+        // 保底：若不是從資遣進來，才退回舊邏輯
+        if (building == null && currentBuildingData != null && currentBuildingData.placedInstance != null)
         {
-            // 取得建築物實體
-            Building building = currentBuildingData.placedInstance.GetComponent<Building>();
-            if (building != null)
-            {
-                // 將招募的妖怪存回建築物
-                building.recruitedMonster = currentMonster;
-
-                // Debug 確認
-                Debug.Log($"建築物 {building.data.buildingName} 已招募妖怪：{building.recruitedMonster.monsterName}");
-                Debug.Log($"等級: {building.recruitedMonster.level}, 好壞: {building.recruitedMonster.alignment}");
-
-                // ==========================
-                // 新增這一行：解鎖圖鑑
-                // ==========================
-                if (currentMonster != null)
-                {
-                    MonsterBookManager.Instance.UnlockMonster(currentMonster.ID);
-                }
-            }
-
-            // 生成在建築物前方
-            SpawnMonsterAtBuilding(building);
+            building = currentBuildingData.placedInstance.GetComponent<Building>();
         }
 
+        if (building == null)
+        {
+            Debug.LogError("[RecruitManager] 找不到對應的 Building，招募中止");
+            return;
+        }
+
+       ////// 生成 MonsterInstance 並決定好壞
+        currentMonsterInstance = CreateMonsterInstance(currentMonster);
+
+        // 將招募的妖怪存回建築物
+        building.recruitedMonster = currentMonster;
+        building.monsterInstance = currentMonsterInstance; /////// 實際 Instance
+
+
+        Debug.Log($"建築物 {building.data.buildingName} 已招募妖怪：{currentMonster.monsterName}");
+
+        // 解鎖圖鑑（你說這邊不用改 ）
+        if (currentMonster != null)
+        {
+            MonsterBookManager.Instance.UnlockMonster(currentMonster.ID);
+        }
+
+        // 生成妖怪
+        SpawnMonsterAtBuilding(building);
+
         recruitMainPanel.SetActive(false);
+
+        // 用完即清（避免下次誤用）
+        currentTargetBuilding = null;
     }
 
 
-    /*private void SpawnMonsterAtBuilding(Building building)
-    {
-        if (building == null || building.recruitedMonster == null)
-            return;
-
-        Transform spawnPoint = building.monsterSpawnPoint;
-        if (spawnPoint == null)
-        {
-            Debug.LogWarning("[RecruitManager] monsterSpawnPoint 未設定");
-            return;
-        }
-
-        // 關鍵：取得 MonsterInstance
-        MonsterInstance instance = spawnPoint.GetComponent<MonsterInstance>();
-        if (instance == null)
-        {
-            Debug.LogError("[RecruitManager] MonsterSpawnPoint 上沒有 MonsterInstance");
-            return;
-        }
-
-        //  初始化妖怪（交給 MonsterInstance 管）
-        instance.Init(building.recruitedMonster);
-
-        Debug.Log($"[RecruitManager] 建築 {building.data.buildingName} 初始化妖怪 {building.recruitedMonster.monsterName}");
-    }*/
-
     private void SpawnMonsterAtBuilding(Building building)
     {
-        if (building == null || building.recruitedMonster == null)
+        if (building == null || building.monsterInstance == null)
             return;
 
-        // 確保 spawnPoint 存在
-        Transform spawnPoint = building.monsterSpawnPoint;
-        if (spawnPoint == null)
-        {
-            Debug.LogWarning("[RecruitManager] monsterSpawnPoint 未設定");
-            return;
-        }
-
-        // 使用 Building 的 SpawnMonster 來生成怪物
+        // 使用 Building 的 SpawnMonster 生成 prefab
         building.SpawnMonster(building.recruitedMonster);
 
-        // 這時候 building.monsterInstance 已經指向生成的 MonsterInstance
         if (building.monsterInstance != null)
         {
-            Debug.Log($"[RecruitManager] 建築 {building.data.buildingName} 初始化妖怪 {building.recruitedMonster.monsterName}");
+            Debug.Log($"[RecruitManager] 建築 {building.data.buildingName} 初始化妖怪 {building.recruitedMonster.monsterName} 好壞：{building.monsterInstance.alignment}");
         }
-        else
-        {
-            Debug.LogError("[RecruitManager] 生成後 monsterInstance 仍為 null");
-        }
+
     }
 
 
     // ==========================
     // 隨機抽取與 UI 刷新
     // ==========================
+
     private MonsterData GetRandomMonster()
     {
-        
         if (allMonsters == null || allMonsters.Count == 0) return null;
 
-        //  先抽等級
-        float r = Random.value; // 0~1
+        // 先抽等級
+        float r = Random.value;
         MonsterLevel chosenLevel;
-        if (r < normalRate)
-        {
-            chosenLevel = MonsterLevel.Normal;
-        }
-        else if (r < normalRate + rareRate)
-        {
-            chosenLevel = MonsterLevel.Rare;
-        }
-        else if (r < normalRate + rareRate + legendaryRate)
-        {
-            chosenLevel = MonsterLevel.Legendary;
-        }
-        else
-        {
-            // 以防萬一，保底給 Legendary
-            chosenLevel = MonsterLevel.Legendary;
-        }
+        if (r < normalRate) chosenLevel = MonsterLevel.Normal;
+        else if (r < normalRate + rareRate) chosenLevel = MonsterLevel.Rare;
+        else chosenLevel = MonsterLevel.Legendary;
 
-        //  再抽好壞
+        // 從 allMonsters 過濾該等級池
+        var candidates = allMonsters.FindAll(m => m.level == chosenLevel);
+        if (candidates.Count == 0) return null;
+
+        // 隨機挑選
+        int index = Random.Range(0, candidates.Count);
+        MonsterData monster = candidates[index];
+
+        return monster;
+    }
+
+    // 新增一個方法：生成 MonsterInstance 並決定好壞
+    private MonsterInstance CreateMonsterInstance(MonsterData data)
+    {
+        if (data == null) return null;
+
+        // 再抽好壞
         float r2 = Random.value;
         MonsterAlignment chosenAlignment = MonsterAlignment.Good;
-        switch (chosenLevel)
+        switch (data.level)
         {
             case MonsterLevel.Normal:
                 if (r2 < normalBadRate) chosenAlignment = MonsterAlignment.Bad;
@@ -289,24 +276,16 @@ public class RecruitManager : MonoBehaviour
                 break;
         }
 
-        //  從 allMonsters 過濾該等級池
-        var candidates = allMonsters.FindAll(m => m.level == chosenLevel);
+        // 生成 Instance
+        GameObject go = new GameObject(); // 先暫存物件，不生成 prefab
+        MonsterInstance mi = go.AddComponent<MonsterInstance>();
+        mi.Init(data, chosenAlignment);
+        return mi;
+    }
 
-        if (candidates.Count == 0) return null;
 
-        //  隨機挑選
-        int index = Random.Range(0, candidates.Count);
-        MonsterData monster = candidates[index];
 
-        //  套用隱性好壞
-        monster.alignment = chosenAlignment;
-
-        return monster;
-    
-
-}
-
-private void RefreshMonsterUI()
+    private void RefreshMonsterUI()
     {
         Debug.Log("[RecruitManager] RefreshMonsterUI 被呼叫");
 
@@ -328,6 +307,36 @@ private void RefreshMonsterUI()
         costumeEffText.text = "服飾加成：" + currentMonster.costumeEfficiency.ToString("F1");
     }
 
+    // 【資遣用】明確指定是哪一棟建築要重新招募
+    public void ShowRecruitStartPanel(Building building)
+    {
+        if (building == null)
+        {
+            Debug.LogWarning("[RecruitManager] ShowRecruitStartPanel(building) building 為 null");
+            return;
+        }
+
+        if (!hasEnteredManualBuildFlow)
+        {
+            Debug.Log("[RecruitManager] 尚未進入手動建造流程，不顯示招募面板");
+            return;
+        }
+
+        if (building.data.panelType != PanelType.Normal)
+        {
+            Debug.Log($"[RecruitManager] 建築 {building.data.buildingName} 非 Normal，不顯示招募面板");
+            return;
+        }
+
+        // 關鍵：直接記住 Building
+        currentTargetBuilding = building;
+        currentBuildingData = building.data; // 保留你原本邏輯
+
+        recruitStartPanel.SetActive(true);
+        recruitMainPanel.SetActive(false);
+
+        Debug.Log($"[RecruitManager] 顯示招募開始面板（建築實體：{building.data.buildingName}）");
+    }
 
     // ==========================
     // UI 更新
@@ -358,7 +367,7 @@ private void RefreshMonsterUI()
         }
     }
 
-    private void UpdateNextButtonState()
+    /*private void UpdateNextButtonState()
     {
         if (nextMonsterButton == null)
             return;
@@ -382,8 +391,62 @@ private void RefreshMonsterUI()
             cb.highlightedColor = Color.black;
         }
         nextMonsterButton.colors = cb;
+    }*/
+
+    private void UpdateNextButtonState()
+    {
+        if (nextMonsterButton == null || coinManager == null)
+            return;
+
+        // 計算當前跳過次數對應的 b 值
+        float b = 0f;
+        switch (maxNextCount - remainingNextCount)
+        {
+            case 0: b = 0.5f; break;
+            case 1: b = 0.65f; break;
+            case 2: b = 0.75f; break;
+            case 3: b = 0.8f; break;
+            default: b = 0.8f; break; // 以防剩餘次數小於0
+        }
+
+        // 計算當前招募費用
+        float a = 1f;
+        if (currentMonster != null)
+        {
+            switch (currentMonster.level)
+            {
+                case MonsterLevel.Normal: a = 1.15f; break;
+                case MonsterLevel.Rare: a = 1.35f; break;
+                case MonsterLevel.Legendary: a = 1.65f; break;
+            }
+        }
+
+        int currentRecruitCost = Mathf.CeilToInt(100f * a * b);
+
+        // 判斷是否可點：剩餘次數 > 0 且玩家金錢足夠
+        bool canClick = remainingNextCount > 0 && coinManager.HasEnough(currentRecruitCost);
+        nextMonsterButton.interactable = canClick;
+
+        // 顯示或隱藏遮罩
+        if (nextButtonOverlay != null)
+            nextButtonOverlay.SetActive(!canClick);
+
+        // 調整按鈕顏色
+        ColorBlock cb = nextMonsterButton.colors;
+        if (canClick)
+        {
+            cb.normalColor = Color.white;
+            cb.highlightedColor = Color.white;
+        }
+        else
+        {
+            cb.normalColor = Color.black;
+            cb.highlightedColor = Color.black;
+        }
+        nextMonsterButton.colors = cb;
+
+        // 顯示當前招募費（可選）
+        Debug.Log($"[RecruitManager] 當前跳過費用：{currentRecruitCost}，玩家金錢：{coinManager.TotalCoins}");
     }
-
-
 }
 
