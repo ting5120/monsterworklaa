@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 382b16963b8584541ae3cf5feefef88e, type: 3}
+  m_Name: "\u7687\u51A0"
+  m_EditorClassIdentifier: 
+  costumeID: 1
+  costumeName: "\u7687\u51A0"
+  price: 10000
+  costumeImage: {fileID: 21300000, guid: a4144c3eeff90df419abd4ad6b3274a9, type: 3}

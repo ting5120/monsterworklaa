@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Costume
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: BackgroundUI
+    uniqueID: 418824431
+    locked: 0
+  - name: GameGrid
+    uniqueID: 3933542321
+    locked: 0
+  - name: Monster
+    uniqueID: 4174089999
+    locked: 0
+  - name: cloth
+    uniqueID: 2527567597
+    locked: 0
+  - name: ForegroudUI
+    uniqueID: 290567923
+    locked: 0

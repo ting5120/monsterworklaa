@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3a77caee2e072a44bc7628b976ccc36, type: 3}
+  m_Name: "\u706B\u5149\u7378"
+  m_EditorClassIdentifier: 
+  monsterName: "\u706B\u5149\u7378"
+  ID: 15
+  description: "\u5C71\u6D77\u7D93\u591A\u6709\u591C\u9593\u767C\u5149\u4E4B\u7378\uFF0C\u5176\u5F62\u5982\u72AC\u6216\u72D0\u3002\u591C\u88E1\u5728\u6797\u9593\u9583\u720D\uFF0C\u5982\u6709\u5FAE\u706B\u3002\u65C5\u4EBA\u5C07\u5176\u7A31\u70BA\u300C\u706B\u5149\u7378\u300D\uFF0C\u898B\u4E4B\u591A\u80FD\u627E\u5230\u6C34\u6E90\u6216\u51FA\u53E3\uFF0C\u88AB\u8996\u4F5C\u4E0D\u5BB3\u4EBA\u7684\u591C\u884C\u7378\u3002\n\u8F09\u65BC\u300A\u5357\u8352\u7D93\u300B\uFF0C\u70BA\u90E8\u5206\u7570\u7378\u5408\u7A31"
+  level: 0
+  alignment: 0
+  workEfficiency: 0
+  costumeEfficiency: 0
+  monsterImage: {fileID: 21300000, guid: 76ed175634352a244b06239ddd3f00d9, type: 3}
+  borderImage: {fileID: 21300000, guid: 977bc5c8f11e67845bbba1c9800c3205, type: 3}
+  lockedImage: {fileID: 21300000, guid: 850348e62e7484349b91f6563a4282bf, type: 3}
+  unlockedImage: {fileID: 21300000, guid: 7e31586ce7b7cfa4f8842ba723334708, type: 3}
+  frameImage: {fileID: 21300000, guid: 30e092298a23c8843abd1c819c12a93f, type: 3}
+  monsterPrefab: {fileID: 2666779817416023205, guid: 3ca6790ab6399614ab284e889825b70e, type: 3}
+  spawnScale: 1
+  spawnOffset: {x: 0, y: 1, z: 0}
+  costumePrefabs:
+  - costumeID: 0
+    costumePrefab: {fileID: 2666779817416023205, guid: 3ca6790ab6399614ab284e889825b70e, type: 3}
+  - costumeID: 1
+    costumePrefab: {fileID: 4803053580940657398, guid: 9fb4827b114a04d408e3f2a1a332aea0, type: 3}
+  - costumeID: 2
+    costumePrefab: {fileID: 6664547295438926999, guid: 64a9300125c0dc94a97d243a50148bc7, type: 3}
+  - costumeID: 3
+    costumePrefab: {fileID: 1114087335397466531, guid: 99a24c0ea5b55b8489e41986cd3bc54f, type: 3}
+  - costumeID: 4
+    costumePrefab: {fileID: 5009467993896920153, guid: 9f486594c6745404ab659aa55a031eb4, type: 3}
+  - costumeID: 5
+    costumePrefab: {fileID: 1205698035590587314, guid: 836ccba23678ca948bfa522317c2bf72, type: 3}
+  isUnlocked: 0

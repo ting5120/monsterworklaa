@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 506f787845320f346ae87ca3d4577f4c, type: 3}
+  m_Name: "\u98F2\u6599\u5E97"
+  m_EditorClassIdentifier: 
+  buildingName: "\u98F2\u6599\u5E97"
+  icon: {fileID: 21300000, guid: ccf537ead76e84e40840a8bdb3b89a0d, type: 3}
+  production: 11.6/s
+  streetLimit: "\u751F\u7522\u8857"
+  InteractLimit: 
+  price: 8500
+  unlocked: 1
+  placedBuildingPrefab: {fileID: 6506180393372551065, guid: b3c5a6703ec35194aa87efb2014b2a5d, type: 3}
+  panelType: 0
+  baseCoinPerSecond: 11.6
+  placedInstance: {fileID: 0}
+  maxLevel: 3
+  levels:
+  - level: 1
+    incomePerSecond: 11.6
+    upgradeCost: 10000
+  - level: 2
+    incomePerSecond: 15.08
+    upgradeCost: 13600
+  - level: 3
+    incomePerSecond: 19.604
+    upgradeCost: 0

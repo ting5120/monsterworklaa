@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3a77caee2e072a44bc7628b976ccc36, type: 3}
+  m_Name: "\u8033\u9F20"
+  m_EditorClassIdentifier: 
+  monsterName: "\u8033\u9F20 "
+  ID: 16
+  description: "\u4F3C\u9F20\uFF0C\u4F46\u8033\u6975\u5927\u3002\n\u7260\u5011\u80FD\u807D\u9060\u8072\uFF0C\u56E0\u6B64\u5E38\u88AB\u53E4\u4EBA\u8996\u70BA\u5C71\u4E2D\u7570\u7378\u7684\u300C\u9810\u8B66\u8005
+    \u8F09\u65BC\u300A\u5317\u6B21\u4E09\u7D93\u300B"
+  level: 0
+  alignment: 0
+  workEfficiency: 0
+  costumeEfficiency: 0
+  monsterImage: {fileID: 21300000, guid: 434e94d304c14634cb2d406460e4dcdb, type: 3}
+  borderImage: {fileID: 21300000, guid: 977bc5c8f11e67845bbba1c9800c3205, type: 3}
+  lockedImage: {fileID: 21300000, guid: b7acaa16f97dcc54bafc91e2b94f38ce, type: 3}
+  unlockedImage: {fileID: 21300000, guid: 07a4d6b17b4bf12499006c06e20b7960, type: 3}
+  frameImage: {fileID: 21300000, guid: 30e092298a23c8843abd1c819c12a93f, type: 3}
+  monsterPrefab: {fileID: 2280743147970420450, guid: 2ba322417f29ba849a89ee8c0722bb22, type: 3}
+  spawnScale: 0.5
+  spawnOffset: {x: 0, y: 1, z: 0}
+  costumePrefabs:
+  - costumeID: 0
+    costumePrefab: {fileID: 2280743147970420450, guid: 2ba322417f29ba849a89ee8c0722bb22, type: 3}
+  - costumeID: 1
+    costumePrefab: {fileID: 3261409899513332421, guid: 100cc6aa2fb33ba40a444bcbc1bd4378, type: 3}
+  - costumeID: 2
+    costumePrefab: {fileID: 7993851281588128559, guid: ba6ea994af27a9e429c46fb7bd12f788, type: 3}
+  - costumeID: 3
+    costumePrefab: {fileID: 7053518957910353024, guid: db4d65b0cf1083f439f3bb305133fe71, type: 3}
+  - costumeID: 4
+    costumePrefab: {fileID: 4425634521180486115, guid: a7b71fe003ff1424987cbfe4488c3fd4, type: 3}
+  - costumeID: 5
+    costumePrefab: {fileID: 2069779341498538585, guid: 0d75fcdae02376e43b58d920ab6678fe, type: 3}
+  isUnlocked: 0
